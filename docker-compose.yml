@@ -1,13 +1,27 @@
 version: '3.8'
+
 services:
-  scheduler:
-    image: daskdev/dask:latest
-    container_name: dask_scheduler
+  dask-scheduler:
+    image: chainguard/dask-gateway:latest
+    container_name: dask-scheduler
+    environment:
+      - DASK_SCHEDULER=1
     ports:
       - "8786:8786"  
-      - "8787:8787"  
+      - "8787:8787" 
     networks:
       - dask-network
+
+  dask-gateway:
+    image: chainguard/dask-gateway:latest
+    container_name: dask-gateway
+    environment:
+      - DASK_GATEWAY=1
+    ports:
+      - "8000:8000"  
+    networks:
+      - dask-network
+
 networks:
   dask-network:
     driver: bridge
